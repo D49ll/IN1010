@@ -1,2 +1,2 @@
 # IN1010
-Object-oriented programming @ UiO
+Object-oriented programming with Java @ UiO
