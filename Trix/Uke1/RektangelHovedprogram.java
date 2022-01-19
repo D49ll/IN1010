@@ -1,4 +1,3 @@
-
 class RektangelHovedprogram{
     public static void main(String[] args){
         Rektangel en = new Rektangel(5,9);
