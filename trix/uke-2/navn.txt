@@ -1,8 +1,8 @@
-P Martin
-H Trofast
-H Tapper
-H Rex
-P Simen
-P Elin
-H Tara
-P Svein
+P Martin ASD
+H Trofast QWE
+H Tapper EQWR
+H Rex FEQ
+P Simen SDF
+P Elin HTR
+H Tara AWQF
+P Svein BES

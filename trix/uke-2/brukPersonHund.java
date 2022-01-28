@@ -3,20 +3,37 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class brukPersonHund {
-    private ArrayList <Person> personer = new ArrayList<>();
-    private ArrayList <Hund> hunder = new ArrayList<>();
-
     public static void main(String[] args) throws Exception{
-        brukPersonHund test = new brukPersonHund();
-        Scanner fil = new Scanner(new File("navn.txt"));
+        File file = new File("navn.txt");
 
-        while (fil.hasNextLine()){
-            String temp = fil.nextLine();
-
-            if (temp.charAt(0) == 'P'){
-                test.personer.add(temp);
-
+        try {
+            Scanner fil = new Scanner(new File("navn.txt"));
+        
+            ArrayList <Hund> hunder = new ArrayList<>();
+            ArrayList <Person> personer = new ArrayList<>();
+        
+            while (fil.hasNextLine()){
+                String linje = fil.nextLine();
+                String[] temp = linje.split(" ", 2);
+                if (temp[0].equals("P")){
+                    personer.add(new Person(temp[1]));
+                }else{
+                    hunder.add(new Hund(temp[1]));
+                }
             }
+            
+            System.out.println("Personer fra fil:");
+            for(int i = 0; i < personer.size(); i++){
+                System.out.println((personer.get(i)).getName());
+            }
+
+            System.out.println("\nHunder fra fil:");
+            for(Hund hund : hunder){
+                System.out.println(hund.getName());
+            }
+
+        } catch (Exception e) {
+            System.out.println(file+" not found");
         }
     }    
 }
