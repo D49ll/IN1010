@@ -1,17 +1,17 @@
 public class Node{
-    private int antPros, mem;
+    private int amountProc, amountGB;
     
-    public Node(int p, int m){
-        antPros = p;
-        mem = m;
+    public Node(int proc, int memory){
+        amountProc = proc;
+        amountGB = memory;
     }
 
-    public int getMem(){
-        return mem;
+    public int getGB(){
+        return amountGB;
     }
 
-    public int getPros(){
-        return antPros;
+    public int getProc(){
+        return amountProc;
     }
 
 }

@@ -2,16 +2,16 @@ public class Rack {
     private int maxNodes = 12;
     private int activeNodes = 0;
     private Node nodes[] = new Node[maxNodes];
-
     private static int activeRacks = 0;
 
-    public void addNode(Node n){
+    public boolean addNode(Node n){
         if(activeNodes<maxNodes){
             nodes[activeNodes] = n;
             activeNodes++;
+            return true;
         }else{
             activeRacks++;
-            System.out.println("Rack "+activeRacks);
+            return false;
         }
     }
 
@@ -20,21 +20,24 @@ public class Rack {
     }
 
     public int noderMedNokMinne(int paakrevdMinne){
-        int antNoder = 0;
+        int amountNodes = 0, i = 0;
 
-        for (Node node : nodes){
-            if(node.getMem()<paakrevdMinne){
-                antNoder++;
+        while(i < nodes.length && nodes[i] != null){
+            if(paakrevdMinne<=nodes[i].getGB()){
+                amountNodes++;
             }
+            i++;
         }
-        return antNoder;
+        return amountNodes;
     }
 
-    public void antProsessorer(){
-        //int antPros = 0;
-        for (Node node : nodes){
-            System.out.println("hå");
+    public int antProsessorer(){
+        int amountProc = 0, i = 0;
+
+        while(i < nodes.length && nodes[i] != null){
+            amountProc += nodes[i].getProc();
+            i++;
         }
-        //return antPros;
+        return amountProc;
     }
 }

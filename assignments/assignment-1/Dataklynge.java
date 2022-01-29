@@ -1,43 +1,46 @@
 import java.util.ArrayList;
 
 public class Dataklynge {
-    private String navn;
+    private String name;
     private ArrayList <Rack> racks = new ArrayList<>();
+    
+    public Dataklynge(String name){
+        this.name = name;
+    }
 
-    public Dataklynge(String n){
-        navn = n;
-        
-        racks.add(new Rack());
+    public int getRacks(){
+        //adds 1 because we start at index 0
+        return (Rack.getAvailableRack()+1);
     }
 
     public void placeNodeInRack(Node n){
-        int i = Rack.getAvailableRack();
-        racks.get(i).addNode(n);
-
-        int j = Rack.getAvailableRack();
-        if (j > i){
+        //First time adding a rack
+        if(racks.isEmpty()){
             racks.add(new Rack());
-            racks.get(j).addNode(n);
         }
-      
 
+        if(!racks.get(Rack.getAvailableRack()).addNode(n)){
+            racks.add(new Rack());
+            placeNodeInRack(n);
+        }
     }
+
     public int noderMedNokMinne(int paakrevdMinne){
-        int antNoder = 0;
+        int amountNodes = 0;
 
         for (Rack rack : racks){
-            antNoder += rack.noderMedNokMinne(paakrevdMinne);
+            amountNodes += rack.noderMedNokMinne(paakrevdMinne);
         }
-        return antNoder;
+        return amountNodes;
     }
 
-    public void antProsessorer(){
-        int antPros = 0;
+    public int antProsessorer(){
+        int amountProc = 0;
 
         for(Rack rack : racks){
-            rack.antProsessorer();;
+            amountProc += rack.antProsessorer();
         }   
-
-        //return antPros;
+        
+        return amountProc;
     }
 }
