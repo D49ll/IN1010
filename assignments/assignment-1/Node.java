@@ -1,10 +1,17 @@
 public class Node{
-    private int antPros, minne;
+    private int antPros, mem;
     
     public Node(int p, int m){
         antPros = p;
-        minne = m;
+        mem = m;
     }
 
+    public int getMem(){
+        return mem;
+    }
+
+    public int getPros(){
+        return antPros;
+    }
 
 }
