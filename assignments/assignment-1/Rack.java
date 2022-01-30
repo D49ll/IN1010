@@ -5,6 +5,8 @@ public class Rack {
     private static int activeRacks = 0;
 
     public boolean addNode(Node n){
+        //Legger til node i rack dersom det er ledig plass og oppdaterer antall noder i racket.
+        //Dersom det ikke er mer plass oppdateres telleren for antall racks.
         if(activeNodes<maxNodes){
             nodes[activeNodes] = n;
             activeNodes++;
@@ -22,6 +24,7 @@ public class Rack {
     public int noderMedNokMinne(int paakrevdMinne){
         int amountNodes = 0, i = 0;
 
+        //Sjekker aktive noder i racken.
         while(i < nodes.length && nodes[i] != null){
             if(paakrevdMinne<=nodes[i].getGB()){
                 amountNodes++;
@@ -34,6 +37,7 @@ public class Rack {
     public int antProsessorer(){
         int amountProc = 0, i = 0;
 
+        //Sjekker aktive noder i racken.
         while(i < nodes.length && nodes[i] != null){
             amountProc += nodes[i].getProc();
             i++;

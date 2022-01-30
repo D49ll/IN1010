@@ -7,40 +7,54 @@ public class Dataklynge {
     public Dataklynge(String name){
         this.name = name;
     }
-
+    public String getName(){
+        return name;
+    }
     public int getRacks(){
-        //adds 1 because we start at index 0
+        //Legger til 1 fordi racks starter på med indeks 0.
         return (Rack.getAvailableRack()+1);
     }
 
-    public void placeNodeInRack(Node n){
-        //First time adding a rack
-        if(racks.isEmpty()){
-            racks.add(new Rack());
-        }
-
-        if(!racks.get(Rack.getAvailableRack()).addNode(n)){
-            racks.add(new Rack());
-            placeNodeInRack(n);
+    public void insertNode(Node n, int Nodes){
+        for(int i = 0; i < Nodes; i ++){
+            fillRack(n);
         }
     }
 
-    public int noderMedNokMinne(int paakrevdMinne){
+    private void fillRack(Node n){
+        //Dersom det ikke finnes noen rack i dataklyngen
+        if(racks.isEmpty()){
+            racks.add(new Rack());
+        }
+    
+        //Legger til node i rack. Dersom rack er full vil
+        //if-testen utføres. Deretter utfører vi et rekursivt kall.
+        if(!racks.get(Rack.getAvailableRack()).addNode(n)){
+            racks.add(new Rack());
+            fillRack(n);
+        }
+    }
+
+    public void noderMedNokMinne(int paakrevdMinne){
         int amountNodes = 0;
 
         for (Rack rack : racks){
             amountNodes += rack.noderMedNokMinne(paakrevdMinne);
         }
-        return amountNodes;
+        System.out.println("Noder med minst "+paakrevdMinne+" GB: "+amountNodes);
     }
 
-    public int antProsessorer(){
+    public void antProsessorer(){
         int amountProc = 0;
 
         for(Rack rack : racks){
             amountProc += rack.antProsessorer();
         }   
-        
-        return amountProc;
+        System.out.println("Antall prosessorer: "+amountProc);
+    }
+
+    public void antRacks(){
+        int amountRacks = Rack.getAvailableRack()+1;
+        System.out.println("Antall rack: "+amountRacks);
     }
 }
