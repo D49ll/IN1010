@@ -52,7 +52,7 @@ public class Hovedprogram {
             }
             System.out.println();
             k.antProsessorer();
-            k.antRacks();
+            k.printRacks();
             System.out.println("\n******************************");
 
         } catch (Exception e) {

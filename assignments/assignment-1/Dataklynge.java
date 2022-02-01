@@ -53,7 +53,7 @@ public class Dataklynge {
         System.out.println("Antall prosessorer: "+amountProc);
     }
 
-    public void antRacks(){
+    public void printRacks(){
         int amountRacks = Rack.getAvailableRack()+1;
         System.out.println("Antall rack: "+amountRacks);
     }
