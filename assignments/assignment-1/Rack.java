@@ -1,7 +1,7 @@
 public class Rack {
     private int maxNodes = 2;
     private int activeNodes = 0;
-    private Node nodes[] = new Node[maxNodes];
+    private Node[] nodes = new Node[maxNodes];
     private static int activeRacks = 0;
 
     public boolean addNode(Node n){
