@@ -4,20 +4,29 @@ import java.util.Arrays;
 
 public class TestLegemiddel {
     public static void main(String[] args){
+        //Oppretter objekter av 3 ulike subklasser
         Legemiddel narko = new Narkotisk("Morfin", 120, 12.0, 9);
         Legemiddel vane = new Vanedannende("Heroin", 60, 15.0, 10);
         Legemiddel vanlig = new Vanlig("Allergimedisin", 20, 5.1);
 
-        String[] narkotiskStoff = new String[]{"1","morfin","120","12.0","9"};
-        String[] vanedannendeStoff = new String[]{"2","Heroin","60","15.0","10"};
-        String[] vanligStoff = new String[]{"3","allergimedisin","20","5.1"};
+        //Parameter for test av klasser
+        String[] narkoTest = new String[]{"1","morfin","120","12.0","9"};
+        String[] vaneTest = new String[]{"2","Heroin","60","15.0","10"};
+        String[] vanligTest = new String[]{"3","allergimedisin","20","5.1"};
 
-        if (!testLegemiddel(narko, narkotiskStoff) || !testLegemiddel(vane, vanedannendeStoff) || !testLegemiddel(vanlig, vanligStoff)){
+        //Tester legemidler
+        if (!testLegemiddel(narko, narkoTest) || !testLegemiddel(vane, vaneTest) || !testLegemiddel(vanlig, vanligTest)){
             System.out.println("\nEt av stoffende bestod ikke testen, se feilmelding over.");
         }else{
-            System.out.println("\nAlle stoffende bestod testen!");
+            System.out.println("\nAlle stoffende bestod testen!\n");
         }
 
+        //Tester polymorfi av toString() i subklasser
+        System.out.println("\nSjekker toString() funksjonalitet:");
+        System.out.println("********************************");
+        System.out.println(narko.toString());
+        System.out.println(vane.toString());
+        System.out.println(vanlig.toString());
     }
     
     public static void feilResultat(Legemiddel legemiddel, String typeTest, String forventetResultat, String faktiskResultat){
@@ -88,7 +97,6 @@ public class TestLegemiddel {
         for(int i = 0; i < tester.size(); i++){
             System.out.println(tester.get(i)+": "+forventetVerdier[i]);
         }
-        
         System.out.println("********************************");
 
         return true;

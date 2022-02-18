@@ -35,6 +35,10 @@ abstract class Legemiddel{
         this.pris = pris;
     }
 
+    public String toString(){
+        return ("\""+navn+"\" har ID nr "+id+" og koster "+pris+"kr. Legemiddelet inneholder "+virkestoff+"mg av virkestoffet");
+    }
+
 }
 
 class Narkotisk extends Legemiddel{
@@ -47,6 +51,11 @@ class Narkotisk extends Legemiddel{
 
     public int hentNarkotiskStyrke(){
         return styrke;
+    }
+
+    @Override
+    public String toString(){
+        return (super.toString()+" med en narkotisk styrke lik "+styrke+".");
     }
 }
 
@@ -61,11 +70,20 @@ class Vanedannende extends Legemiddel{
     public int hentVanedannendeStyrke(){
         return styrke;
     }
+
+    @Override
+    public String toString(){
+        return (super.toString()+" med en vanedannende styrke lik "+styrke+".");
+    }
 }
 
 class Vanlig extends Legemiddel{
 
     public Vanlig(String navn, int pris, double virkestoff){
         super(navn, pris, virkestoff);
+    }
+    @Override
+    public String toString(){
+        return (super.toString()+".");
     }
 }
