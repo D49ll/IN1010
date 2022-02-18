@@ -1,46 +1,114 @@
 abstract class Resept {
-    protected int legemiddelId;
-    protected Legemiddel legemiddelRef;
-    //protected Lege legeRef;
-    //protected String pastientId
+    protected int reseptId;
+    protected Legemiddel legemiddel;
+    protected Lege utskrivendeLege;
+    protected int pastientId;
     protected int reit;
+    protected static int antallResepter = 1;
 
-    public Resept(){
+    public Resept(Legemiddel legemiddel, Lege utskrivendeLege, int pasientId, int reit){
+        this.legemiddel = legemiddel;
+        this.utskrivendeLege = utskrivendeLege;
+        this.pastientId = pasientId;
+        this.reit = reit;
 
+        reseptId = antallResepter;
+        antallResepter++;
     }
 
+    public int hentId(){
+        return reseptId;
+    }
+
+    public String hentLege(){ //Må endre til Lege variabel senere
+        return utskrivendeLege.hentNavn();
+    }
+
+    public int hentPasientId(){
+        return pastientId;
+    }
+
+    public int hentReit(){
+        return reit;
+    }
+
+    public boolean bruk(){
+        if(reit < 1){
+            return false;
+        }
+        reit -= 1;
+        return true;
+    }
+
+    //En abstrakt metode kan ikke inneholde noen kropp. 
+    //Kroppen blir definert i subklassene
+    abstract public String farge();
+    abstract public int prisAaBetale();
 }
 
 class HvitResept extends Resept{
-
-    public HvitResept(){
-        super();
+    protected int pris;
+    public HvitResept(Legemiddel legemiddel, Lege utskrivendeLege, int pasientId, int reit){
+        super(legemiddel, utskrivendeLege, pasientId, reit);
     }
 
+    @Override
+    public String farge(){
+        return ("hvit");
+    }
+
+    @Override
+    public int prisAaBetale(){
+        return legemiddel.hentPris();
+    }
 }
 
 class MilResept extends HvitResept{
-    
-    public MilResept(){
-        super();
-        //Pris = 0kr
-        //reit = 3
+    public MilResept(Legemiddel legemiddel, Lege utskrivendeLege, int pasientId){
+        //Reit = 0
+        super(legemiddel, utskrivendeLege, pasientId, 3);
+    }
+
+    @Override
+    public int prisAaBetale(){
+        //pris = 0
+        return 0;
     }
 
 }
 
 class PResept extends HvitResept{
-    public PResept(){
-        super();
-        //Gjelder kun prevansjonsmidler
-        //nyPris = pris-108kr
-        //kan ikke koste 0kr
+    protected int pris;
+    public PResept(Legemiddel legemiddel, Lege utskrivendeLege, int pasientId, int reit){
+        super(legemiddel, utskrivendeLege, pasientId, reit);
+    }
+    
+    @Override
+    public int prisAaBetale(){
+        pris = legemiddel.hentPris();
+
+        //Dersom prisen er mindre enn 109 betaler kunden 1kr
+        if(pris<=108){
+            return 1;
+        }
+        return pris-108;
     }
 }
 
-class BlaResept extends Resept{
-    public BlaResept(){
-        super();
-        //Pris reduseres med 75. Dvs pasient betaler 25%, rundet til nærmeste krone
+class BlaaResept extends Resept{
+    protected int pris;
+    public BlaaResept(Legemiddel legemiddel, Lege utskrivendeLege, int pasientId, int reit){
+        super(legemiddel, utskrivendeLege, pasientId, reit);
+    }
+    
+    @Override
+    public String farge(){
+        return ("hvit");
+    }
+    
+    @Override
+    public int prisAaBetale(){
+        //Pris reduseres med 75. Dvs pasient betaler 25%, rundet til nærmeste krone.
+        return (int) Math.round(legemiddel.hentPris()*0.25);
     }
 }
