@@ -1,11 +1,15 @@
-public abstract class Legemiddel{
+//At klassen er abstrakt betyr at vi ikke kan opprette et objekt av superklassen Legemiddel, men bare subklassene.
+abstract class Legemiddel{
     protected int pris;
     protected double virkestoff;
     protected String navn;
-    protected static int id = 0;
+    protected int id;
+    protected static int antallLegemidler = 1;
 
     public Legemiddel(String navn, int pris, double virkestoff){
-        id++;
+        id = antallLegemidler;
+        antallLegemidler++;
+
         this.navn = navn;
         this.virkestoff = virkestoff;
         this.pris = pris;
@@ -33,7 +37,6 @@ public abstract class Legemiddel{
 
 }
 
-
 class Narkotisk extends Legemiddel{
     protected int styrke;
 
@@ -54,7 +57,7 @@ class Vanedannende extends Legemiddel{
         super(navn, pris, virkestoff);
         this.styrke = styrke;
     }
-    
+
     public int hentVanedannendeStyrke(){
         return styrke;
     }
