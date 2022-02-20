@@ -24,10 +24,10 @@ public class TestResepter {
         //Tester toString()
         System.out.println("********************************");
         System.out.println("Tester redefineringen av toString() metoden\n");
-        System.out.println(hvit.toString()+"\n");
-        System.out.println(blaa.toString()+"\n");
-        System.out.println(pre.toString()+"\n");
-        System.out.println(mil.toString()+"\n");
+        System.out.println(hvit.toString());
+        System.out.println(blaa.toString());
+        System.out.println(pre.toString());
+        System.out.println(mil.toString());
         System.out.println("********************************");
     }
     
