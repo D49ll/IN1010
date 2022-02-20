@@ -39,6 +39,10 @@ abstract class Resept {
         return true;
     }
 
+    public String toString(){
+        return ("Resept med ID "+reseptId+" er utskrevet av "+utskrivendeLege.hentNavn()+".\nResepten tilhører pasient med ID "+pastientId+" som har "+reit+" reeit's tilgjengelig.\nDet er en "+farge()+" resept og koster "+prisAaBetale()+"kr.");
+    }
+
     //En abstrakt metode kan ikke inneholde noen kropp. 
     //Kroppen blir definert i subklassene
     abstract public String farge();
@@ -73,7 +77,6 @@ class MilResept extends HvitResept{
         //pris = 0
         return 0;
     }
-
 }
 
 class PResept extends HvitResept{
@@ -102,7 +105,7 @@ class BlaaResept extends Resept{
     
     @Override
     public String farge(){
-        return ("hvit");
+        return ("blaa");
     }
     
     @Override
