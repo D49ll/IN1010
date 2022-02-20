@@ -42,7 +42,7 @@ abstract class Resept {
     }
 
     public String toString(){
-        return ("Resept med ID "+reseptId+" er utskrevet av "+utskrivendeLege.hentNavn()+".\nResepten tilhører pasient med ID "+pastientId+" som har "+reit+" reeit's tilgjengelig.\nDet er en "+farge()+" resept og koster "+prisAaBetale()+"kr.");
+        return ("Resept med ID "+reseptId+" er utskrevet av "+utskrivendeLege.hentNavn()+".\nResepten tilhører pasient med ID "+pastientId+" som har "+reit+" reeit's tilgjengelig.\nDet er en "+farge()+" resept og koster "+prisAaBetale()+"kr.\n");
     }
 
     //En abstrakt metode kan ikke inneholde noen kropp. 
