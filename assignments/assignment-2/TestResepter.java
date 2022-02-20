@@ -29,7 +29,6 @@ public class TestResepter {
         System.out.println(pre.toString()+"\n");
         System.out.println(mil.toString()+"\n");
         System.out.println("********************************");
-
     }
     
     public static void printResultat(Resept resept, boolean testResultat){
@@ -45,8 +44,8 @@ public class TestResepter {
         System.out.println("Feil \""+typeTest+"\"");
         System.out.println("Forventet "+forventetResultat+" men verdien er faktisk "+faktiskResultat);
         System.out.println();
-
     }
+
     public static boolean testResept(int reseptID, Resept resept, Lege lege, Legemiddel legemiddel, int pasientId, int reit){
         System.out.println("********************************");
         System.out.println("Tester resept med ID "+resept.hentId());
@@ -129,6 +128,7 @@ public class TestResepter {
                 return false;
             }
         }
+        
         //Alle tester bestått
         return true;
     }
