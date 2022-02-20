@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class TestResepter {
     public static void main(String[] args){
         //Oppretter instanser av Legemidler
@@ -17,80 +15,67 @@ public class TestResepter {
         Resept pre = new PResept(legemiddel3, hovedlege, 1003, 2);
         Resept mil = new MilResept(legemiddel4, hovedlege, 1004);
 
-        //Enhetstester HvitResept klasse
-        System.out.println("********************************");
-        System.out.println("Tester resept med ID: "+hvit.hentId());
-        if(testResept(1, hvit, hovedlege, legemiddel1, 1000, 0)){
-            System.out.println("Resept med ID: "+hvit.hentId()+" bestod alle tester");
-        }else{
-            System.out.println("Resept med ID: "+hvit.hentId()+" bestod ikke alle tester");
-        }
-        System.out.println("********************************\n");
-
-        //Enhetstester BlaaResept klasse
-        System.out.println("********************************");
-        System.out.println("Tester resept med ID: "+blaa.hentId());
-        if(testResept(2, blaa, hovedlege, legemiddel2, 1001, 2)){
-            System.out.println("Resept med ID: "+blaa.hentId()+" bestod alle tester");
-        }else{
-            System.out.println("Resept med ID: "+blaa.hentId()+" bestod ikke alle tester");
-        }
-        System.out.println("********************************\n");
-
-        //Enhetstester PResept klasse
-        System.out.println("********************************");
-        System.out.println("Tester resept med ID: "+pre.hentId());
-        if(testResept(3, pre, hovedlege, legemiddel3, 1003, 2)){
-            System.out.println("Resept med ID: "+pre.hentId()+" bestod alle tester");
-        }else{
-            System.out.println("Resept med ID: "+pre.hentId()+" bestod ikke alle tester");
-        }
-        System.out.println("********************************\n");
-
-        //Enhetstester MilResept klasse
-        System.out.println("********************************");
-        System.out.println("Tester resept med ID: "+mil.hentId());
-        if(testResept(4, mil, hovedlege, legemiddel4, 1004, 3)){
-            System.out.println("Resept med ID: "+mil.hentId()+" bestod alle tester");
-        }else{
-            System.out.println("Resept med ID: "+mil.hentId()+" bestod ikke alle tester");
-        }
-        System.out.println("********************************\n");
-
+        //Enhetstester hver klasse
+        printResultat(hvit, testResept(1, hvit, hovedlege, legemiddel1, 1000, 0));
+        printResultat(blaa, testResept(2, blaa, hovedlege, legemiddel2, 1001, 2));
+        printResultat(pre, testResept(3, pre, hovedlege, legemiddel3, 1002, 2));
+        printResultat(mil, testResept(4, mil, hovedlege, legemiddel4, 1004, 3));
+    
         //Tester toString()
+        System.out.println("********************************");
+        System.out.println("Tester redefineringen av toString() metoden\n");
         System.out.println(hvit.toString()+"\n");
         System.out.println(blaa.toString()+"\n");
         System.out.println(pre.toString()+"\n");
         System.out.println(mil.toString()+"\n");
+        System.out.println("********************************");
+
     }
     
-    public static void feilResultat(Resept resept, String typeTest, int forventetResultat, int faktiskResultat){
-        System.out.println("\nFeil \""+typeTest+"\" i resept med ID: \""+resept.hentId()+"\"");
+    public static void printResultat(Resept resept, boolean testResultat){
+        if(testResultat){
+            System.out.println("Resept med ID "+resept.hentId()+": bestod alle tester");
+        }else{
+            System.out.println("Resept med ID "+resept.hentId()+": bestod ikke alle tester");
+        }
+        System.out.println("********************************\n");
+    }
+
+    public static void feilResultat(String typeTest, int forventetResultat, int faktiskResultat){
+        System.out.println("Feil \""+typeTest+"\"");
         System.out.println("Forventet "+forventetResultat+" men verdien er faktisk "+faktiskResultat);
         System.out.println();
 
     }
     public static boolean testResept(int reseptID, Resept resept, Lege lege, Legemiddel legemiddel, int pasientId, int reit){
+        System.out.println("********************************");
+        System.out.println("Tester resept med ID "+resept.hentId());
+        System.out.println();
+        
         //hentID() test
         if(!(resept.hentId() == reseptID)){
-            feilResultat(resept, "Resept ID", reseptID, resept.hentId());
+            feilResultat("Resept ID", reseptID, resept.hentId());
             return false;
         }
+
         //hentLege() test
         if(!(resept.hentLege().equals(lege))){
             System.out.println("Feil lege");
             return false;
         }
+
         //hentPasientId() test
         if(!(resept.hentPasientId() == pasientId)){
-            feilResultat(resept, "Pasient ID", pasientId, resept.hentPasientId());
+            feilResultat("Pasient ID", pasientId, resept.hentPasientId());
             return false;
         }
+
         //hentReit() test
         if(!(resept.hentReit()== reit)){
-            feilResultat(resept, "reit", reit, resept.hentReit());
+            feilResultat("reit", reit, resept.hentReit());
             return false;
         }
+
         //bruk() test
         System.out.println("Reit før bruk(): "+resept.hentReit());
         if(!resept.bruk()){
@@ -99,6 +84,7 @@ public class TestResepter {
             System.out.println("Reit etter bruk(): "+resept.hentReit());
         }
         System.out.println();
+
         //farge() test
         if(resept instanceof HvitResept){
             if(!(resept.farge().equalsIgnoreCase("hvit"))){
@@ -111,6 +97,7 @@ public class TestResepter {
                 return false;
             }
         }
+
         //prisAaBetale() test
         if(resept instanceof HvitResept){
             if(resept instanceof PResept){
@@ -121,24 +108,24 @@ public class TestResepter {
                     pris -= 108;
                 }
                 if(!(resept.prisAaBetale() == pris)){
-                    feilResultat(resept, "prissjekk", pris, resept.prisAaBetale());
+                    feilResultat("prissjekk", pris, resept.prisAaBetale());
                     return false;
                 }
             }else if(resept instanceof MilResept){
                 if(!(resept.prisAaBetale()==0)){
-                    feilResultat(resept, "prissjekk", 0, resept.prisAaBetale());
+                    feilResultat("prissjekk", 0, resept.prisAaBetale());
                     return false;
                 }
             }else{
                 if(!(resept.prisAaBetale() == legemiddel.hentPris())){
-                    feilResultat(resept, "prissjekk", legemiddel.hentPris(), resept.prisAaBetale());
+                    feilResultat("prissjekk", legemiddel.hentPris(), resept.prisAaBetale());
                     return false;
                 }
             }
         }else if(resept instanceof BlaaResept){
             int pris = (int) Math.round(legemiddel.hentPris()*0.25);
             if(!(resept.prisAaBetale() == pris)){
-                feilResultat(resept, "prissjekk", pris, resept.prisAaBetale());
+                feilResultat("prissjekk", pris, resept.prisAaBetale());
                 return false;
             }
         }

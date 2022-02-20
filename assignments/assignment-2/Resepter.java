@@ -1,4 +1,5 @@
 abstract class Resept {
+    //Instansvariabler
     protected int reseptId;
     protected Legemiddel legemiddel;
     protected Lege utskrivendeLege;
@@ -15,6 +16,7 @@ abstract class Resept {
         reseptId = antallResepter;
         antallResepter++;
     }
+
     public int hentId(){
         return reseptId;
     }
@@ -44,13 +46,12 @@ abstract class Resept {
     }
 
     //En abstrakt metode kan ikke inneholde noen kropp. 
-    //Kroppen blir definert i subklassene
+    //En abstrakt metode MÅ defineres i subklassene
     abstract public String farge();
     abstract public int prisAaBetale();
 }
 
 class HvitResept extends Resept{
-    protected int pris;
     public HvitResept(Legemiddel legemiddel, Lege utskrivendeLege, int pasientId, int reit){
         super(legemiddel, utskrivendeLege, pasientId, reit);
     }
@@ -68,7 +69,7 @@ class HvitResept extends Resept{
 
 class MilResept extends HvitResept{
     public MilResept(Legemiddel legemiddel, Lege utskrivendeLege, int pasientId){
-        //Reit = 0
+        //Reit = 3
         super(legemiddel, utskrivendeLege, pasientId, 3);
     }
 
@@ -80,14 +81,13 @@ class MilResept extends HvitResept{
 }
 
 class PResept extends HvitResept{
-    protected int pris;
     public PResept(Legemiddel legemiddel, Lege utskrivendeLege, int pasientId, int reit){
         super(legemiddel, utskrivendeLege, pasientId, reit);
     }
     
     @Override
     public int prisAaBetale(){
-        pris = legemiddel.hentPris();
+        int pris = legemiddel.hentPris();
 
         //Dersom prisen er mindre enn 109 betaler kunden 1kr
         if(pris<=108){
@@ -98,7 +98,6 @@ class PResept extends HvitResept{
 }
 
 class BlaaResept extends Resept{
-    protected int pris;
     public BlaaResept(Legemiddel legemiddel, Lege utskrivendeLege, int pasientId, int reit){
         super(legemiddel, utskrivendeLege, pasientId, reit);
     }
