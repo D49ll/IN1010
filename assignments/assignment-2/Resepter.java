@@ -15,13 +15,12 @@ abstract class Resept {
         reseptId = antallResepter;
         antallResepter++;
     }
-
     public int hentId(){
         return reseptId;
     }
 
-    public String hentLege(){ //Må endre til Lege variabel senere
-        return utskrivendeLege.hentNavn();
+    public Lege hentLege(){ 
+        return utskrivendeLege;
     }
 
     public int hentPasientId(){

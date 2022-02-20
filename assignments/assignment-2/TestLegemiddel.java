@@ -27,6 +27,13 @@ public class TestLegemiddel {
         System.out.println(narko.toString());
         System.out.println(vane.toString());
         System.out.println(vanlig.toString());
+
+        //Test av settNyPris()
+        System.out.println("\nSjekker settNyPris() funksjonalitet:");
+        System.out.println("********************************");
+        System.out.println("Pris på "+narko.hentNavn()+" før endring: "+narko.hentPris()+"kr.");
+        narko.settNyPris(50);    
+        System.out.println("Pris på "+narko.hentNavn()+" etter endring: "+narko.hentPris()+"kr.");
     }
     
     public static void feilResultat(Legemiddel legemiddel, String typeTest, String forventetResultat, String faktiskResultat){
