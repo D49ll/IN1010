@@ -1,4 +1,4 @@
-public abstract class Resept {
+public abstract class Resept{
     //Instansvariabler
     protected int reseptId;
     protected Legemiddel legemiddel;
