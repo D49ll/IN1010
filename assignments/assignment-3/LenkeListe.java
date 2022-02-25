@@ -78,12 +78,13 @@ public abstract class LenkeListe<T> implements Liste<T>{
         }
         
         Node node = head;
-        String myStr = "";
+        
+        String myStr = "tostring: ";
 
-        myStr += (String) node.element;
+        myStr += node.element;
         while(node.next != null){
             //System.out.println(node.next.element);
-            myStr +=" "+(String) node.next.element;
+            myStr +=" "+ node.next.element;
             node = node.next;
         }
         return myStr;

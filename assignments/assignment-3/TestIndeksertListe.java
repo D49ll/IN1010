@@ -124,6 +124,7 @@ class TestIndeksertListe {
 	ks.leggTil(1, "Omega");
 	String ks1 = ks.fjern(1);
 	String ks0 = ks.fjern();
+
 	info(7, "Fjerne siste");
 	if (! ks1.equals("Omega")) {
 	    p("fjernet element er \"" + ks1 + "\" og ikke \"Omega\"");
