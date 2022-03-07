@@ -1,4 +1,5 @@
 public abstract class LenkeListe<T> implements Liste<T>{
+    //Oppretter en intern klasse, Node, som holder styr på elementene i den doble lenkede listen
     class Node{
         Node next = null;
         Node prev = null;
@@ -9,7 +10,8 @@ public abstract class LenkeListe<T> implements Liste<T>{
         }
     }
 
-    //Head = første node, tail = siste node.
+    //Head = første node
+    //tail = siste node
     protected Node head = null;
     protected Node tail = null;
     protected int numNodes = 0;
@@ -20,19 +22,20 @@ public abstract class LenkeListe<T> implements Liste<T>{
 
     @Override
     public void leggTil(T element){
+        //Nye elementer legges alltid bakerst i listen, dvs alltid i tail-noden
         Node newNode = new Node(element);
         
-        //Første node
+        //Første element i listen
         if(head == null){
             head = newNode;
         }
-        //Andre node
+        //Andre element i listen
         else if(tail == null){
             tail = newNode;
             tail.prev = head;
             head.next = tail;
         }
-        //Resterende noder legges bakerst
+        //Resterende elementer
         else{
             tail.next = newNode;
             newNode.prev = tail;
@@ -51,17 +54,27 @@ public abstract class LenkeListe<T> implements Liste<T>{
     }
 
     @Override
-    public T fjern(){
+    public T fjern()throws UgyldigListeindeks{
         //Fjerner første element i listen og returner det.
         T res;
-        if (head == null){
-            throw new UgyldigListeindeks(-1);
-        }else if(head.next == null){
+
+        //Dersom det ikke finnes noen noder i listen
+        if (head == null){throw new UgyldigListeindeks(-1);}
+        
+        //Dersom det finnes kun en node i listen
+        if(head.next == null){
+            res = head.element;
+            head = null;
+        }
+        //Dersom det finnes kun to noder i listen
+        else if(head.next.equals(tail)){
             res = head.element;
 
-            head = null;
+            head = tail;
             tail = null;
-        }else{
+        }
+        //Alle resterende tilfeller
+        else{
             res = head.element;
             
             head = head.next;
@@ -79,11 +92,10 @@ public abstract class LenkeListe<T> implements Liste<T>{
         
         Node node = head;
         
-        String myStr = "tostring: ";
+        String myStr = "Elementer i listen: ";
 
         myStr += node.element;
         while(node.next != null){
-            //System.out.println(node.next.element);
             myStr +=" "+ node.next.element;
             node = node.next;
         }
