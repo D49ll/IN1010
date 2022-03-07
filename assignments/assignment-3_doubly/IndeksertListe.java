@@ -43,14 +43,14 @@ public class IndeksertListe<T> extends LenkeListe<T> {
         }
         //Alle resterende tilfeller
         else{
-            Node indexNode = head;
+            Node getNode = head;
             for(int i = 0; i < pos; i++){
-                indexNode = indexNode.next;
+                getNode = getNode.next;
             }
-            newNode.prev = indexNode.prev;
-            newNode.next = indexNode;
-            indexNode.prev.next = newNode;
-            indexNode.prev = newNode;
+            newNode.prev = getNode.prev;
+            newNode.next = getNode;
+            getNode.prev.next = newNode;
+            getNode.prev = newNode;
         }
         numNodes++;
     }
