@@ -1,0 +1,5 @@
+<map id="Legemiddel" name="Legemiddel">
+<area shape="rect" id="node3" href="$classNarkotiskLegemiddel.html" title="NarkotiskLegemiddel" alt="" coords="5,155,149,181"/>
+<area shape="rect" id="node4" href="$classVanedannendeLegemiddel.html" title="VanedannendeLegemiddel" alt="" coords="174,155,349,181"/>
+<area shape="rect" id="node5" href="$classVanligLegemiddel.html" title="VanligLegemiddel" alt="" coords="373,155,497,181"/>
+</map>

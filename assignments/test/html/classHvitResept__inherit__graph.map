@@ -1,0 +1,5 @@
+<map id="HvitResept" name="HvitResept">
+<area shape="rect" id="node4" href="$classMilitaerResept.html" title="MilitaerResept" alt="" coords="5,229,112,256"/>
+<area shape="rect" id="node5" href="$classPrevensjonsResept.html" title="PrevensjonsResept" alt="" coords="136,229,272,256"/>
+<area shape="rect" id="node2" href="$classResept.html" title="Resept" alt="" coords="99,80,163,107"/>
+</map>
