@@ -8,7 +8,7 @@ import java.io.File;
 public class SubsekvensRegister {
     private ArrayList<HashMap<String,Subsekvens>> hashBeholder = new ArrayList<>();
 
-    public void put(HashMap<String,Subsekvens> subsekvenser){
+    public void push(HashMap<String,Subsekvens> subsekvenser){
         hashBeholder.add(subsekvenser);
     }
 
@@ -16,8 +16,8 @@ public class SubsekvensRegister {
         return hashBeholder.size();
     }
 
-    public HashMap<String,Subsekvens> getHashMap(int index){
-        return hashBeholder.get(index);
+    public HashMap<String,Subsekvens> pop(int index){
+        return hashBeholder.remove(index);
     }
     
     
@@ -48,22 +48,22 @@ public class SubsekvensRegister {
     public static HashMap<String,Subsekvens> mergeHashMap(HashMap<String,Subsekvens> map1, HashMap<String,Subsekvens> map2){
 
         //Kopierer alle elementer i map1 til mergeMap
-        HashMap<String,Subsekvens> mergedMap = new HashMap<>();
-        mergedMap.putAll(map1);
+        // HashMap<String,Subsekvens> mergedMap = new HashMap<>();
+        // mergedMap.putAll(map1);
 
         //Sjekker alle elementer i mergemap mot elementer i map2.
         //Dersom det finnes key-duplikater økes val-variabelen tilsvarende val i map 2
         for(HashMap.Entry<String,Subsekvens> e : map2.entrySet()){
             String key = e.getKey();
             Subsekvens val = e.getValue();
-            if(mergedMap.containsKey(key)){
+            if(map1.containsKey(key)){
                 for(int i = 0; i < val.getAmount(); i++){
-                    mergedMap.get(key).increment();
+                    map1.get(key).increment();
                 }
             }else{
-                mergedMap.put(key, val);
+                map1.put(key, val);
             }
         }
-        return mergedMap;
+        return map1;
     }
 }
