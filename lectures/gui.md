@@ -14,6 +14,7 @@
   - [Å ha to tråder innebærer følgende:](#å-ha-to-tråder-innebærer-følgende)
   - [Treg hendelseshåndtering](#treg-hendelseshåndtering)
 - [Programmere GUI (AWT+Swing)](#programmere-gui-awtswing)
+  - [Metoder og klasser som brukes i IN1010](#metoder-og-klasser-som-brukes-i-in1010)
   - [Standard oppsett uten noe funksjonalitet](#standard-oppsett-uten-noe-funksjonalitet)
   - [Opprette trykknapper](#opprette-trykknapper)
   - [Tekst](#tekst)
@@ -23,6 +24,7 @@
   - [Font](#font)
   - [Rammer](#rammer)
   - [Tegning (Graphics2D)](#tegning-graphics2d)
+    - [Metoder og klasser IN1010 for tegning](#metoder-og-klasser-in1010-for-tegning)
     - [Eksempelkode](#eksempelkode)
 - [Programeksempler](#programeksempler)
   - [Et minimalt GUI-program](#et-minimalt-gui-program)
@@ -146,7 +148,7 @@ Swing er objektorientert. I IN1010 bruker vi det som er merket med rødt. JCompo
 
 **TIPS FRA FORELESER**: Det lønner seg å unngå GUI-kode i konstruktørene. I stedet bør GUI-koden skilles ut og legges i en egen metode, feks initGUI().
 
-<img src="img/swing_OO.png" width="400">
+<img src="img/swing_OO.png" width="500">
 
 På tegneflaten (JPanel-objekt) kan vi plassere ulike bokser:
 - tekst (JLabel)
@@ -155,6 +157,12 @@ På tegneflaten (JPanel-objekt) kan vi plassere ulike bokser:
 - tekstfelt (JTextField)
 - tegneflater (JPanel), ny å mindre tegneflate på tegneflaten
 - ...
+
+## Metoder og klasser som brukes i IN1010
+Det er kun metodene og klassene nevnt nedenfor som er nødvendig i IN1010:
+
+<img src="img/GUI_metoder_IN1010.png" width="500">
+
 
 ## Standard oppsett uten noe funksjonalitet
 ```java
@@ -331,6 +339,12 @@ class GPanel extends JComponent{
     }
 }
 ```
+### Metoder og klasser IN1010 for tegning
+I bildet ser man de metodene og klassene som kan brukes i IN1010 for å tegne strukturer
+
+<img src="img/GUI_tegning_metoder_klasser.png" width="400">
+
+
 ### Eksempelkode
 ```java
 class GPanel extends JComponent{
