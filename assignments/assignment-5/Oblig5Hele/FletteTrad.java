@@ -14,23 +14,29 @@ import java.util.concurrent.CountDownLatch;
 
 public class FletteTrad implements Runnable{
     protected Monitor2 monitor;
-    protected ArrayList<HashMap<String,Subsekvens>> map = new ArrayList<>();
     protected CountDownLatch myBarrier;
+    protected int activeThreads;
 
-    public FletteTrad(Monitor2 monitor, CountDownLatch myBarrier){
+    public FletteTrad(Monitor2 monitor, CountDownLatch myBarrier, int MAXTHREADS){
         this.monitor = monitor;
         this.myBarrier = myBarrier;
+        this.activeThreads = MAXTHREADS;
     }
-       
+    
     public void run(){
         try{
-            while(monitor.size()>1){
-                map = monitor.pop2();
+            while(myBarrier.getCount() != 0){
+                ArrayList<HashMap<String,Subsekvens>> map = monitor.pop2();
                 HashMap<String,Subsekvens> map1 = map.remove(0);
                 HashMap<String,Subsekvens> map2 = map.remove(0);
                 
                 monitor.push(SubsekvensRegister.mergeHashMap(map1, map2));
-                myBarrier.countDown();       
+                myBarrier.countDown();
+
+                //Dersom antall aksjoner (getCount) gjenværende er mindre enn 
+                //antall aktive tråder kan vi terminere denne tråden.
+                if(myBarrier.getCount()<activeThreads)
+                    break;
             }
         }
         catch(InterruptedException | IndexOutOfBoundsException e){

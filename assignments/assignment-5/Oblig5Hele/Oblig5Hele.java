@@ -11,7 +11,8 @@ public class Oblig5Hele{
         long startTime = System.currentTimeMillis();
         int MAXTHREADS = 8;
         int DOMINANTFREQ = 7;
-
+        ArrayList<Thread> sickLeseT, sickFletteT, healtyLeseT, healtyFletteT;
+        
         //Oppgir path til mappen
         String path = ""; 
         if (args.length > 0){
@@ -32,83 +33,100 @@ public class Oblig5Hele{
             int numFiles = filesInDirectory.length;
 
             //Sorterer personer basert på tidligere sykdom
-            ArrayList<File> sFilesInDirectory = new ArrayList<>();
-            ArrayList<File> hFilesInDirectory = new ArrayList<>();
+            ArrayList<File> sickFiles = new ArrayList<>();
+            ArrayList<File> healtyFiles = new ArrayList<>();
             Scanner metadata = new Scanner(filesInDirectory[numFiles-1]);
+            
             for(int i = 0; i < numFiles-1; i++){
                 String line = metadata.nextLine();
                 String[] words = line.split(",");
                 if(words[1].equals("True")){
-                    sFilesInDirectory.add(filesInDirectory[i]);
+                    sickFiles.add(filesInDirectory[i]);
                 }else{
-                    hFilesInDirectory.add(filesInDirectory[i]);
+                    healtyFiles.add(filesInDirectory[i]);
                 }
             }
             metadata.close();
 
             //Variabler til pasienter som har hatt viruset
-            int sNumFiles = sFilesInDirectory.size();
-            CountDownLatch sInBarrier = new CountDownLatch(sNumFiles);
-            CountDownLatch sOuBarrier = new CountDownLatch(sNumFiles-1);
-            Monitor2 sMonitor = new Monitor2();
+            int sickNumFiles = sickFiles.size();
+            CountDownLatch sickLeseBarriere = new CountDownLatch(sickNumFiles);
+            CountDownLatch sickFletteBarriere = new CountDownLatch(sickNumFiles-1);
+            Monitor2 sickMonitor = new Monitor2(sickFletteBarriere);
             
             //Variabler til pasienter som ikke har hatt viruset
-            int hNumFiles = hFilesInDirectory.size();
-            CountDownLatch hInBarrier = new CountDownLatch(hNumFiles);
-            CountDownLatch hOuBarrier = new CountDownLatch(hNumFiles-1);
-            Monitor2 hMonitor = new Monitor2();
+            int healtyNumFiles = healtyFiles.size();
+            CountDownLatch healtyLeseBarriere = new CountDownLatch(healtyNumFiles);
+            CountDownLatch healtyFletteBarriere = new CountDownLatch(healtyNumFiles-1);
+            Monitor2 healtyMonitor = new Monitor2(healtyFletteBarriere);
 
             //Initierer alle LeseTrader for begge grupper
-            System.out.println("-------------------");
             System.out.println("Reading files from folder \""+path+"\":");
-            System.out.println("-------------------");
-            initiateLeseTrads(sMonitor, sFilesInDirectory, sInBarrier);
-            initiateLeseTrads(hMonitor, hFilesInDirectory, hInBarrier);
-            waiting(sInBarrier, hInBarrier);
-            System.out.println("\nLeseTrad's finished");
-            System.out.println("-------------------\n");
-
-            //Initerer max 8 FletteTrader per gruppe
-            System.out.println("-------------------");
-            System.out.println("Merging files:");
-            System.out.println("-------------------");
-            initiateFletteTrads(sMonitor, sFilesInDirectory, sOuBarrier, MAXTHREADS);
-            initiateFletteTrads(hMonitor, hFilesInDirectory, hOuBarrier, MAXTHREADS);
-            waiting(sOuBarrier, hOuBarrier);
-            System.out.println("\nFletteTrads's finished");
-            System.out.println("----------------------\n");
+            sickLeseT = initiateLeseTrads(sickMonitor, sickFiles, sickLeseBarriere);
+            healtyLeseT = initiateLeseTrads(healtyMonitor, healtyFiles, healtyLeseBarriere);
+    
+            //Initerer FletteTrader, max 8 per gruppe
+            System.out.println("\nMerging files:");
+            sickFletteT = initiateFletteTrads(sickMonitor, sickFiles, sickFletteBarriere, MAXTHREADS);
+            healtyFletteT = initiateFletteTrads(healtyMonitor, healtyFiles, healtyFletteBarriere, MAXTHREADS);
+            
+            //Venter på at trådene skal bli ferdig.
+            System.out.println("\nWaiting on threads to finish:");
+            waiting(sickLeseBarriere, healtyLeseBarriere);
+            System.out.println("LeseTrad's finished");
+            waiting(sickFletteBarriere, healtyFletteBarriere);
+            System.out.println("FletteTrads's finished");
 
             //Finner de mest dominante subsekvensene
+            System.out.println("\nSubsekvenser med differanse mer enn "+DOMINANTFREQ+" ganger");
             System.out.println("------------------------------------------------------------");                
-            System.out.println("Subsekvenser med differanse mer enn "+DOMINANTFREQ+" ganger");
-            System.out.println("------------------------------------------------------------");                
-            
-            findDominant(DOMINANTFREQ, sMonitor, hMonitor);
+            findDominant(DOMINANTFREQ, sickMonitor, healtyMonitor);
             System.out.println("------------------------------------------------------------\n");                
             
+            //Sjekker om det enda finnes levende tråder.
+            isAlive(sickLeseT, "Sick Lesetråd");
+            isAlive(healtyLeseT, "Healty Lesetråd");
+            isAlive(sickFletteT, "Sick Flettetråd");
+            isAlive(healtyFletteT, "Healty Flettetråd");
             System.out.println("Programmet brukte "+((System.currentTimeMillis()-startTime))/1000F+"s");
         }
     }
+
+    private static void isAlive(ArrayList<Thread> threads, String msg){
+        for(int i = 0; i < threads.size(); i++){
+            if(threads.get(i).isAlive()){
+                System.out.println(msg+"["+i+"] is still alive");     
+            }
+        }
+    }
     
-    public static void initiateLeseTrads(Monitor2 monitor, ArrayList<File> files, CountDownLatch myBarrier){
+    public static ArrayList<Thread> initiateLeseTrads(Monitor2 monitor, ArrayList<File> files, CountDownLatch myBarrier){
         int i;
+        ArrayList<Thread> threads = new ArrayList<>();
+
         for(i=0; i < files.size(); i++){
-            new Thread(new LeseTrad(files.get(i),monitor,myBarrier)).start();
+            threads.add(new Thread(new LeseTrad(files.get(i),monitor,myBarrier)));
+            threads.get(i).start();
         }
         System.out.println("Started "+i+" LeseTrad-threads.. ");
+        return threads;
     }
 
-    public static void initiateFletteTrads(Monitor2 monitor, ArrayList<File> files, CountDownLatch myBarrier, int MAXTHREADS){
+    public static ArrayList<Thread> initiateFletteTrads(Monitor2 monitor, ArrayList<File> files, CountDownLatch myBarrier, int MAXTHREADS){
         int i;
-        //Dersom antall filer er mindre enn MAXTHREADS er det ikke behov for å opprette 8 Threads.
-        //Trenger (antall filer - 1) for å flette.
+        ArrayList<Thread> threads = new ArrayList<>();
+
+        // Dersom antall filer er mindre enn MAXTHREADS er det ikke behov for å opprette 8 Threads.
+        // Trenger (antall filer - 1) for å flette.
         if(files.size()-1 < MAXTHREADS){
             MAXTHREADS = files.size()-1;
         }
         for(i = 0; i < MAXTHREADS; i++){
-            new Thread(new FletteTrad(monitor,myBarrier)).start();
+            threads.add(new Thread(new FletteTrad(monitor,myBarrier,MAXTHREADS)));
+            threads.get(i).start();
         }
         System.out.println("Started "+i+" FletteTrad-threads.. ");
+        return threads;
     }
 
     public static void waiting(CountDownLatch sBarrier, CountDownLatch hBarrier){
@@ -121,11 +139,12 @@ public class Oblig5Hele{
         }
     }
 
-    public static void findDominant(int freq, Monitor2 sMonitor, Monitor2 hMonitor){
+    public static void findDominant(int freq, Monitor2 sickMonitor, Monitor2 healtyMonitor){
         try{
             HashMap<String,Integer> dominant = new HashMap<>();
-            HashMap<String,Subsekvens> healty = hMonitor.get(0);
-            for(HashMap.Entry<String,Subsekvens> m : sMonitor.get(0).entrySet()){
+            HashMap<String,Subsekvens> healty = healtyMonitor.get(0);
+            
+            for(HashMap.Entry<String,Subsekvens> m : sickMonitor.get(0).entrySet()){
                 String key = m.getKey();
                 Subsekvens val = m.getValue();
                 
@@ -144,6 +163,7 @@ public class Oblig5Hele{
             if(dominant.size()>0){
                 int maxVal = 0;
                 String maxKey = "";
+                
                 for(HashMap.Entry<String,Integer> m:dominant.entrySet()){
                     String key = m.getKey();
                     int val = m.getValue();

@@ -1,17 +1,25 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.locks.Condition;
-
+import java.util.concurrent.CountDownLatch;
 
 public class Monitor2 extends Monitor1{
-    Condition notTwo = l.newCondition();    
+    Condition notTwo = l.newCondition();
+    CountDownLatch myBarrier;
+    boolean finished = true;
+    
+    public Monitor2(CountDownLatch myBarrier){
+        this.myBarrier = myBarrier;
+    }
+
     @Override
     public void push(HashMap<String,Subsekvens> m) throws InterruptedException{
         l.lock();
         try{
             subSekvenser.push(m);
-            // System.out.println("Størrelse etter push:"+subSekvenser.size());
-            // if(subSekvenser.size()>=2) notTwo.signalAll();
+            if(subSekvenser.size()>=2){
+                notTwo.signalAll();
+            }        
         }
         finally{l.unlock();}
     }
@@ -21,19 +29,21 @@ public class Monitor2 extends Monitor1{
         l.lock();
         try{
             //For å poppe 2 hashmapper må det faktisk finnes to.
-            // while(subSekvenser.size()<2) {
-            //     // System.out.println("size:"+subSekvenser.size());
-            //     // System.out.println("STUCK??");
-            //     notTwo.await();}
-            // System.out.println(subSekvenser.size());
+            while(subSekvenser.size()<2) {
+                //Venter her til signalAll() blir aktivt i push().
+                // System.out.println("await");
+                notTwo.await();
+            }
             test.add(subSekvenser.pop(0));
             test.add(subSekvenser.pop(0));           
+
             return test;
         }
-        // catch(InterruptedException e){
-        //     e.printStackTrace();
-        // }
+        catch(InterruptedException e){
+            e.printStackTrace();
+        }
         finally{l.unlock();}
+        return test;
     }
 
     public HashMap<String, Subsekvens> get(int index) throws InterruptedException{
