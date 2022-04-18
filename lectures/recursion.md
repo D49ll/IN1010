@@ -38,7 +38,7 @@ n! = 1 * 2 * 3 ... n
 
 
 ## Iterativ
-```java
+```js
 class Fakultet{
     static long fak(int k){
         long res = 1
@@ -212,3 +212,8 @@ Class Lenkeliste<T> implements Liste<T>{
 }
 ```
 ![reverse_kjøring](img/reverse_kjøring.png "reverse kjøring")
+
+
+
+
+
