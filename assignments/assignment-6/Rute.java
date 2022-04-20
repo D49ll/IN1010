@@ -1,10 +1,7 @@
-import java.util.ArrayList;
-
 public abstract class Rute{
     protected int y, x;
     protected Rute right=null , left=null, top=null, bottom=null;
     protected Labyrint labyrint;
-    protected ArrayList<ArrayList<Tuppel>> utveier;
 
     public Rute(int y,int x, Labyrint labyrint){
         //Ruten tilhører denne labyrint
@@ -39,7 +36,7 @@ public abstract class Rute{
     }
 
     private boolean validRute(Rute rute, Rute fra){
-        return((rute!=fra && rute !=null) || fra == null);
+        return(rute!=fra && (rute !=null || fra == null));
     }
 
 }

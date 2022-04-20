@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 
 public class SvartRute extends Rute {
     protected String tegn = "#"; 
