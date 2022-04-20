@@ -29,6 +29,10 @@ public class Labyrint {
             }
         }
         setNeighbors();
+
+        System.out.println("Labyrint:");
+        System.out.println(this);
+        System.out.println();
     }
 
     @Override
@@ -37,7 +41,7 @@ public class Labyrint {
         for(int y = 0; y < rows; y++){
             String linje = "";
             for(int x = 0; x < colums; x++)
-                linje += ruter[y][x].tilTegn();
+                linje += ruter[y][x].toString();
             if(y < rows-1)
                 labyrinten+=linje+'\n';
             else
@@ -84,6 +88,13 @@ public class Labyrint {
         }
     }
 
+    public void finnUtveiFra(int rad, int kol){
+        //rad = y
+        //kol = x
+
+        System.out.println("Aapninger:");
+        ruter[rad][kol].finn(null);
+    }
 
     private boolean isOuterLeftColum(int x){
         return (x-1 < 0);
@@ -100,19 +111,4 @@ public class Labyrint {
     private boolean isOuterWindow(int y,int x){
         return (isOuterBottomRow(y) || isOuterTopRow(y) || isOuterLeftColum(x) || isOuterRightColum(x));
     }
-
-    /**
-     * Testprogram
-     */
-
-    public static void main(String[] arg){
-        try{
-            Labyrint lab1 = new Labyrint("labyrinter/1.in");
-            System.out.println(lab1.toString());
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
-
-    }
-
 }

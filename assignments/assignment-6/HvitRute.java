@@ -1,19 +1,12 @@
 public class HvitRute extends Rute {
-    protected char tegn = '.'; 
+    protected String tegn = "."; 
 
     public HvitRute(int y, int x, Labyrint labyrint){
         super(y,x,labyrint);
     }
 
     @Override
-    public char tilTegn(){
+    public String toString(){
         return tegn;
     }
-
-    public void gaa(){
-        left.gaa();
-        right.gaa();
-        top.gaa();
-        bottom.gaa();
-    }    
 }

@@ -1,19 +1,24 @@
+import java.util.ArrayList;
+
+
 public class SvartRute extends Rute {
-    protected char tegn = '#'; 
+    protected String tegn = "#"; 
     
     public SvartRute(int y, int x, Labyrint labyrint){
         super(y,x,labyrint);
     }
     
     @Override
-    public char tilTegn(){
+    public String toString(){
         return tegn;
     }
 
-    public void gaa(){
-        left.gaa();
-        right.gaa();
-        top.gaa();
-        bottom.gaa();
+    @Override
+    public void finn(Rute fra){
+        if(fra == null){
+            System.out.println("Kan ikke starte i en sort rute");
+        }
+        return;
+        //Sorte ruter kan man ikke gå gjennom
     }
 }
