@@ -38,5 +38,5 @@ public abstract class Rute{
     private boolean validRute(Rute rute, Rute fra){
         return(rute!=fra && (rute !=null || fra == null));
     }
-
+    
 }

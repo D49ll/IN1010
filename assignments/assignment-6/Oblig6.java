@@ -1,7 +1,7 @@
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/**
+/*
  * Mangler å håndtere feil input. Ellers er oppgaven ferdig.
  */
 
@@ -10,7 +10,7 @@ public class Oblig6 {
         String filename = new String();
         
         if(arg.length > 0){
-            //Da finnes det argumenter
+            //Argumenter finnes
             filename = arg[0];
         }else{
             System.out.println("usage: java Oblig6 <filename>");

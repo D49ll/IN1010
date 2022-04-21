@@ -14,10 +14,10 @@ public class Labyrint {
         rows = Integer.parseInt(firstLine[0]);
         ruter = new Rute[rows][colums];
 
-        //Colums
+        //Rows
         for(int y = 0; y < rows ; y++){
             String line = stream.nextLine();
-            //Rows
+            //Colums
             for(int x = 0; x < colums; x++){
                 if(line.charAt(x) == '.')
                     if(isOuterWindow(y, x))
@@ -50,9 +50,19 @@ public class Labyrint {
         return labyrinten;
     }
 
-    /**
+    public void finnUtveiFra(int rad, int kol){
+        //rad = y
+        //kol = x
+
+        System.out.println("Aapninger:");
+        ruter[rad][kol].finn(null);
+    }
+    
+    /*****************
+     * 
      * Private methods
-     */
+     * 
+     *****************/
     private void setNeighbors(){
         //Top row
         for(int x = 0; x < colums; x++){
@@ -86,14 +96,6 @@ public class Labyrint {
                 }
             }
         }
-    }
-
-    public void finnUtveiFra(int rad, int kol){
-        //rad = y
-        //kol = x
-
-        System.out.println("Aapninger:");
-        ruter[rad][kol].finn(null);
     }
 
     private boolean isOuterLeftColum(int x){
