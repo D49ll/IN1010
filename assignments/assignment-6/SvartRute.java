@@ -1,14 +1,12 @@
 
 public class SvartRute extends Rute {
-    protected String tegn = "#"; 
-    
     public SvartRute(int y, int x, Labyrint labyrint){
         super(y,x,labyrint);
     }
     
     @Override
     public String toString(){
-        return tegn;
+        return "#";
     }
 
     @Override
