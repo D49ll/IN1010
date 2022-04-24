@@ -14,6 +14,36 @@ public class Labyrint {
         System.out.println();
     }
 
+    
+    @Override
+    public String toString(){
+        String labyrinten = "";
+        for(int y = 0; y < rows; y++){
+            String linje = "";
+            for(int x = 0; x < colums; x++)
+            linje += ruter[y][x].toString();
+            if(y < rows-1)
+            labyrinten+=linje+'\n';
+            else
+            labyrinten+=linje;
+        }
+        return labyrinten;
+    }
+    
+    public void finnUtveiFra(int rad, int kol){
+        //rad = y
+        //kol = x
+        
+        System.out.println("Aapninger:");
+        ruter[rad][kol].finn(null);
+    }
+    
+    /*****************
+     * 
+     * Private methods
+     * 
+     *****************/
+
     private Rute[][] readFromFile(String filename) throws FileNotFoundException{
         Scanner stream = new Scanner(new File(filename));
         String[] firstLine = stream.nextLine().split(" ");
@@ -38,35 +68,7 @@ public class Labyrint {
         }
         return ruter;
     }
-
-    @Override
-    public String toString(){
-        String labyrinten = "";
-        for(int y = 0; y < rows; y++){
-            String linje = "";
-            for(int x = 0; x < colums; x++)
-                linje += ruter[y][x].toString();
-            if(y < rows-1)
-                labyrinten+=linje+'\n';
-            else
-                labyrinten+=linje;
-        }
-        return labyrinten;
-    }
-
-    public void finnUtveiFra(int rad, int kol){
-        //rad = y
-        //kol = x
-
-        System.out.println("Aapninger:");
-        ruter[rad][kol].finn(null);
-    }
     
-    /*****************
-     * 
-     * Private methods
-     * 
-     *****************/
     private void setNeighbors(){
         //Top row
         for(int x = 0; x < colums; x++){
