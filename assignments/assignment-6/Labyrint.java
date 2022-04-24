@@ -13,7 +13,6 @@ public class Labyrint {
         System.out.println(this);
         System.out.println();
     }
-
     
     @Override
     public String toString(){
@@ -21,11 +20,11 @@ public class Labyrint {
         for(int y = 0; y < rows; y++){
             String linje = "";
             for(int x = 0; x < colums; x++)
-            linje += ruter[y][x].toString();
+                linje += ruter[y][x].toString();
             if(y < rows-1)
-            labyrinten+=linje+'\n';
+                labyrinten+=linje+'\n';
             else
-            labyrinten+=linje;
+                labyrinten+=linje;
         }
         return labyrinten;
     }
@@ -68,7 +67,7 @@ public class Labyrint {
         }
         return ruter;
     }
-    
+
     private void setNeighbors(){
         //Top row
         for(int x = 0; x < colums; x++){
