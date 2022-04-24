@@ -7,8 +7,15 @@ public class Labyrint {
     protected int rows, colums;
 
     public Labyrint(String filename) throws FileNotFoundException{
-        Scanner stream = new Scanner(new File(filename));
+        ruter = readFromFile(ruter, filename);
+        setNeighbors();
+        System.out.println("Labyrint:");
+        System.out.println(this);
+        System.out.println();
+    }
 
+    private Rute[][] readFromFile(Rute[][] ruter, String filename) throws FileNotFoundException{
+        Scanner stream = new Scanner(new File(filename));
         String[] firstLine = stream.nextLine().split(" ");
         colums = Integer.parseInt(firstLine[1]);
         rows = Integer.parseInt(firstLine[0]);
@@ -27,12 +34,9 @@ public class Labyrint {
                 else
                     ruter[y][x] = new SvartRute(y, x, this);
             }
+                
         }
-        setNeighbors();
-
-        System.out.println("Labyrint:");
-        System.out.println(this);
-        System.out.println();
+        return ruter;
     }
 
     @Override
