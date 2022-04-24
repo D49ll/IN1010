@@ -1,9 +1,6 @@
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/*
- * Mangler å håndtere feil input. Ellers er oppgaven ferdig.
- */
 
 public class Oblig6 {
     public static void main(String[] arg){
@@ -22,13 +19,19 @@ public class Oblig6 {
             Scanner keyboard = new Scanner(System.in);
 
             System.out.println("Skriv inn koordinater <rad> <kolonne> ('-1' for aa avslutte)");
-            String[] coordinates = keyboard.nextLine().split(" ");
+            String[] coordinates = keyboard.nextLine().trim().split(" ");
 
-            while(Integer.parseInt(coordinates[0]) != -1){
-                lab.finnUtveiFra(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]));
+            while(!coordinates[0].equals("-1")){
+                try{
+                    lab.finnUtveiFra(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]));
+                }catch (NumberFormatException | ArrayIndexOutOfBoundsException e){
+                    System.out.println("\nUgyldig format. Skriv inn nye koordinater ('-1' for aa avslutte)");
+                    coordinates = keyboard.nextLine().trim().split(" ");
+                    continue;
+                }
 
                 System.out.println("\nSkriv inn nye koordinater ('-1' for aa avslutte)");
-                coordinates = keyboard.nextLine().split(" ");
+                coordinates = keyboard.nextLine().trim().split(" ");
             }
             keyboard.close();
             System.out.println("Avslutter");

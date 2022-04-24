@@ -32,7 +32,9 @@ public class Labyrint {
     public void finnUtveiFra(int rad, int kol){
         //rad = y
         //kol = x
-        
+        if(rad > rows || kol > colums){
+            throw new ArrayIndexOutOfBoundsException();
+        }
         System.out.println("Aapninger:");
         ruter[rad][kol].finn(null);
     }
