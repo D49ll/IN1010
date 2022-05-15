@@ -1,12 +1,18 @@
 # Table of contents
 - [Table of contents](#table-of-contents)
 - [GUI "Graphical User Interface"](#gui-graphical-user-interface)
+  - [Standard for hvert GUI program](#standard-for-hvert-gui-program)
   - [Kjøring](#kjøring)
   - [Fordeler og ulemper med GUI-programmering](#fordeler-og-ulemper-med-gui-programmering)
   - [Design av GUI-programmer](#design-av-gui-programmer)
   - [Hvordan bygge et GUI-program etter design 1.](#hvordan-bygge-et-gui-program-etter-design-1)
 - [Programmeringsparadigmer](#programmeringsparadigmer)
 - [Hendelsesdrevet programmering](#hendelsesdrevet-programmering)
+- [Model-view-controller](#model-view-controller)
+  - [Model](#model)
+  - [View](#view)
+  - [Controller](#controller)
+  - [UML sekvensdiagram](#uml-sekvensdiagram)
   - [Oppstart](#oppstart)
   - [Vente på hendelser](#vente-på-hendelser)
   - [Håndtere hendelser](#håndtere-hendelser)
@@ -20,6 +26,7 @@
   - [Tekst](#tekst)
   - [Filvelger](#filvelger)
   - [Layout](#layout)
+    - [Angi størrelse](#angi-størrelse)
   - [Farger](#farger)
   - [Font](#font)
   - [Rammer](#rammer)
@@ -40,6 +47,23 @@
 - Et godt nettkurs som introduserer bruk av GUI, laget av [Oracle](https://docs.oracle.com/javase/tutorial/uiswing/ "nettkurs fra oracle").
 - IN1010 bruker AWT+Swing i kurset fordi det er en del av standard Java
 - JavaFX er mer moderne og avansert
+
+## Standard for hvert GUI program
+
+```java
+/*Klasser som dekker IN1010 behovet*/
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+/*Angi standard swing utseende*/
+try{
+    UIManager.setLookAndFeel(UIManager.getCrossPlattformLookAndFeelClassName());
+}catch (Exception e){
+    System exit(1);
+    }
+    
+```
 
 ## Kjøring
 Grafiske programmer trenger mer støtte ved kjøring fra systemet enn tekstorienterte programmer. Det enkleste er å installere java på egen maskin.
@@ -62,6 +86,7 @@ Det er to hovedmåter å organisere GUI-program på:
 2. Utvikle "selve programmet" og GUI-presentasjonen hver for seg (MVC = Model-View-Controller)
    - Lettere å holde oversikten om "selve programmet" er komplisert
    - Lettere å tilpasse programmet til ulike medier (mobil, nettbrett osv.)
+
 
 ## Hvordan bygge et GUI-program etter design 1.
 1. Finn ut **nøyaktig** hva programmet skal gjøre
@@ -86,6 +111,27 @@ Her ligger programmet passivt og venter på noe skal skje. F.eks kan det signali
 - slipper om en tast
 - endrer størrelse på vinduet
 - ...
+# Model-view-controller
+MVC er en metode for å utvikle GUI programmer. Der programmet deles inn i 3-deler:
+1. Model
+2. View
+3. Controller
+
+Initieres i et hovedprogram, typisk `Kontroll kontroll = new Kontroll();`
+
+## Model
+Lagrer det som trengs for å representere programmets tilstand, dvs oppdatere objekter tilhørende GUI.
+- Eks tellerverdien til et telleprogram
+  
+## View
+Oppretter GUI-vinduet og tar av seg brukerinteraksjon (dvs trykkenapper). Frontend.
+
+## Controller
+Er selve programmet og styrer hendelsene. Backend. Kaller på funksjoner i modellen. 
+
+## UML sekvensdiagram
+<img src="img/uml_sekvensdiagram.png" width="400">
+
 
 ## Oppstart
 Programmet startes i metoden main i hovedtråden. Etter en stund kaller programmet:
@@ -269,7 +315,7 @@ else
 ```
 
 ## Layout
-Hvordan plassere elementer, standard er **FlowLayout**. Den er fleksibel og bytter linje ved behov. Noen ganger fortrekker man **GridLayour**, som er et rutenett. I IN1010 skal vi kun bruke FlowLayout og rutenett.
+Hvordan plassere elementer, standard er **FlowLayout**. Den er fleksibel og bytter linje ved behov. Noen ganger fortrekker man **GridLayour**, som er et rutenett. I IN1010 skal vi bruke FlowLayout, GridLayout og BorderLayout.
 
 ```java
 //FlowLayout
@@ -280,7 +326,7 @@ flyt.add(new JButton("Valg 3"));
 flyt.add(new JButton("Valg 4"));
 panel.add(flyt)
 
-//Rutenett
+//GridLayout
 JPanel ruter = new JPanel();
 ruter.setLayout(new GridLayout(2,2)); //Angir rader og kolonner
 ruter.add(new JButton("Knapp 1"));
@@ -288,10 +334,32 @@ ruter.add(new JButton("Knapp 2"));
 ruter.add(new JButton("Knapp 3"));
 ruter.add(new JButton("Knapp 4"));
 panel.add(ruter)
+
+//BorderLayou
+JPanel = panel = new JPanel();
+vindu.add(panel);
+
+panel.setLayout(new BorderLayout());
+panel.add(new JButtion("NORTH"),BorderLayout.NORTH);
+panel.add(new JButtion("SOUTH"),BorderLayout.SOUTH);
+panel.add(new JButtion("EAST"),BorderLayout.EAST);
+panel.add(new JButtion("WEST"),BorderLayout.WEST);
+panel.add(new JButtion("CENTER"),BorderLayout.CENTER);
+
 ```
 Produserer følgende:\
 <img src="img/Layout.png" width="500">
 
+<img src="img/BoarderLayout.png" width="500">
+
+### Angi størrelse
+I utgangspunktet prøver Swing å pakka elementene så tett som mulig. Dersom vi ønsker å gjøre noe med dette kan vi gi swting et hint. Dette hintet kan Swing velge å overstyre.
+
+```java
+JButton sentrum = new JButton("CENTER");
+sentrum.setPreferredSize(new Dimensions(180, 100)); //pikselstørrelser 180 horisontalt 100 vertikalt
+panel.add(sentrum, BorderLayout.CENTER);
+```
 
 ## Farger
 Farges lages med new Color(r,g,b) men noen farger er også predefinert:
@@ -305,6 +373,8 @@ xxx.setForeground(new Color (218, 41, 28)) // new Color(R, G, B);
 ```
 
 ## Font
+ANbefaler å bruker MONOSPACE slik at alle symboler er like.
+
 ```java
 new Font(Font.MONOSPACED, Font.PLAIN, 30); //30 = antall skjermpiksler
 new Font(Font.MONOSPACED, Font.BOLD, 30);
