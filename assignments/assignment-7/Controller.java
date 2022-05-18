@@ -8,7 +8,7 @@ public class Controller {
     public Controller(){
         gui = new GUI(this, rows, colums);
         model = new Model(gui, this, rows, colums);
-        thread = new Thread(new snakeSpeed(200)); //in ms
+        thread = new Thread(new snakeSpeed(2000)); //in ms
         thread.start();
 
     }
@@ -50,10 +50,6 @@ public class Controller {
     public void crash(){
         gui.changeTextStopButton();
         thread.interrupt();
-    }
-
-    public static void main(String[] args) {
-        new Controller();
     }
 
 }
